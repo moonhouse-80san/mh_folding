@@ -2,7 +2,8 @@
 
 게시판 확장변수 설정에서 가져 오던 것을 위젯에서 간단하게 가져오는 방식으로 처리했습니다.
 
-Mh Folding 위젯 V1.2 - 2023.06.08 - 문하우스 : 824c04c8ad1468271c98c1c133561fe3.jpg
+![image](https://github.com/user-attachments/assets/6f4a5500-20e8-4f11-b2d6-d45a4e350c21)
+
 
 2. 게시판지원 스킨과 이미지및 제목, 내용 직접 작성 스킨 2가지를 지원합니다.
 
@@ -32,10 +33,12 @@ Mh Folding 위젯 V1.2 - 2023.06.08 - 문하우스 : 824c04c8ad1468271c98c1c1335
 
 [일반 게시판지원 Default Skin] 
 
-Mh Folding 위젯 V1.2 - 2023.06.08 - 문하우스 : mf001.jpg
+![image](https://github.com/user-attachments/assets/7cbe729b-3956-492c-a786-1878205401ba)
+
 
  
 
 [Url Skin]
 
-Mh Folding 위젯 V1.2 - 2023.06.08 - 문하우스 : img_001.jpg
+![image](https://github.com/user-attachments/assets/924c8566-caed-4416-bb89-a9e8233047a3)
+

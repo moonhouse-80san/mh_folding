@@ -1,0 +1,109 @@
+<include target="mf_style.html" />
+
+<div class="mf-area" id="mfClose">
+
+	<a cond="!$wi->widget_close == ''" href="javascript:void(xHide('mfClose'))" class="mf_close pr_tooltip" pr_color="orange" pr_position="top" title="Widget 닫기">
+		<img src="img/pin.png" width="30" border="0" alt="Close X">
+	</a>
+
+	<span cond="$wi->name_use == 'Y'" class="mb_name">
+		{$wi->b_name}
+	</span>
+
+	<div class="mf_w">
+		<div class="mf_accordion">
+
+			<!--@foreach($box_list as $key => $val)-->
+				{@ $oDocument = $oDocumentModel->getDocument($val->document_srl)}
+				{@ $uploaded_images = array()}
+				<!--@if($oDocument->hasUploadedFiles())-->
+					<!--@foreach($oDocument->getUploadedFiles() as $key => $val)-->
+						{@ $filename = strtolower($val->uploaded_filename)}
+						<!--@if((substr($filename,-3)=='gif' || substr($filename,-3)=='jpg' || substr($filename,-3)=='png'))-->
+						{@ $uploaded_images[] = $val->uploaded_filename}
+						<!--@end-->
+					<!--@end-->
+				<!--@end-->
+
+				<div class="mf_box">
+					<div cond="$wi->title == ''" class="mf_title">
+						<a href="{getUrl('','document_srl',$oDocument->document_srl)}" class="pr_tooltip" pr_color="dark" pr_position="top" title="{$oDocument->getTitleText()}" style="font-family:Nanum Pen Script; font-size:1.5em">
+							{$oDocument->getTitleText($wi->subject_cut_size)}
+						</a>
+					</div>
+
+					<span cond="$wi->view_type =='' && $wi->thumd_nails ==''">
+						<!--@if($oDocument->getThumbnail())-->
+							<a class="mhthumb" cond="$oDocument->document_srl" href="{getUrl('','document_srl',$oDocument->document_srl)}">
+								<img src="{$oDocument->getThumbnail($wi->thumbnail_width,$wi->thumbnail_height,$wi->thumbnail_type)}"/>
+							</a>
+							<!--@else-->
+							<a class="mhthumb" href="{getUrl('','document_srl',$oDocument->document_srl)}">
+								<img src="{$tpl_path}/img/no_image.gif" class="noimg"/>
+							</a>
+						<!--@end-->
+					</span>
+
+					<span cond="$wi->view_type =='lightbox' && $wi->thumd_nails ==''">
+						<!--@if(count($uploaded_images))-->
+							{@ $gallery_image = $uploaded_images[0]}
+							<a class="mhthumb example-image-link" cond="$oDocument->document_srl" href="<!--@if($wi->zoom_s == 'T')-->{$oDocument->getThumbnail($wi->thumbnail_width*$wi->thumbnail_zoom,$wi->thumbnail_height*$wi->thumbnail_zoom,ratio)}<!--@elseif($wi->zoom_s == 'E')-->{$oDocument->extra_value}<!--@else-->{$gallery_image}<!--@end-->" data-lightbox="mnc" data-title="<a href='{getUrl('','document_srl',$oDocument->document_srl)}'>{$oDocument->getTitleText($wi->subject_cut_size)}</a>">
+								<load target="css/lightbox.min.css" />
+								<load target="js/lightbox.js"/>
+								<img src="{$oDocument->getThumbnail($wi->thumbnail_width,$wi->thumbnail_height,$wi->thumbnail_type)}" />
+							</a>
+						<!--@end-->
+					</span>
+
+					<span class="mhthumb zoom-section" cond="$wi->view_type== 'zoom' && $wi->thumd_nails ==''">
+						<!--@if(count($uploaded_images))-->
+							{@ $gallery_image = $uploaded_images[0]}
+							<load target="css/zoom.css" />
+							<load target="js/cloud-zoom.1.0.2.min.js" />
+							<div class="zoom-small-image">
+								<a cond="$oDocument->document_srl" href="<!--@if($wi->zoom_s == 'T')-->{$oDocument->getThumbnail($wi->thumbnail_width*$wi->thumbnail_zoom,$wi->thumbnail_height*$wi->thumbnail_zoom,ratio)}<!--@elseif($wi->zoom_s == 'E')-->{$oDocument->extra_value}<!--@else-->{$gallery_image}<!--@end-->" class='cloud-zoom' rel="position:'inside',showTitle:false,adjustX:-1,adjustY:-1">
+									<img src="{$oDocument->getThumbnail($wi->thumbnail_width,$wi->thumbnail_height,$wi->thumbnail_type)}" />
+								</a>
+							</div>
+						<!--@end-->
+					</span>
+
+					<div cond="$wi->display_summary == ''" class="mf_sum">
+						{$oDocument->getSummary($wi->content_cut_size)}
+					</div>
+
+					<div class="mf_etc">
+						<div class="mf_etc1">
+							<span cond="!$wi->display_regdate == ''">{$oDocument->getRegdate('Y m d')}</span>
+							<span cond="!$wi->display_author== ''"><span class="member_{$oDocument->get('member_srl')}">{$oDocument->getNickName()}</span></span>
+						</div>
+						<a cond="!$wi->more== ''" href="{getUrl('','document_srl',$oDocument->document_srl)}">
+							more &rarr;
+						</a>
+					</div>
+				</div>
+			<!--@end-->
+
+			<!-- 페이지 네비게이션 -->
+			<div cond="$wi->page_type=='Y'" id="mmcpageNavigation_mf">
+				<a href="{getUrl('page','','document_srl','','division',$division,'last_division',$last_division,'entry','')}" class="goToFirst" title="First Page"><i class="fas fa-backward"></i></a>
+					<!-- 페이지 정보 구하기 위해 선언 -->
+					{@$page_view = WD_getNextPage_mf($wi->total_count,$wi->total_page,$wi->page,$wi->page_count)}
+					<!-- 중복 페이지 정보 출력을 위해 사전 초기화 -->
+					{@WD_getNextClear_mf()}
+				<a href="{getUrl('page',$page-$wi->page_count,'document_srl','','division',$division,'last_division',$last_division,'entry','')}" class="pn" cond="$page > $wi->page_count">Prev</a>
+				<!--@while($page_no = WD_getNextPage_mf2())-->
+					<!--@if($wi->page == $page_no)-->
+						<span class="current">{$page_no}</span>
+					<!--@else-->
+						<span class="pageNavigations"><a href="{getUrl('page',$page_no,'document_srl','','division',$division,'last_division',$last_division,'entry','')}" class="pageNavigation2">{$page_no}</a></span>
+					<!--@end-->
+				<!--@end-->
+				<a href="{getUrl('page',$page+$wi->page_count,'document_srl','','division',$division,'last_division',$last_division,'entry','')}" class="pn" cond="($page_view->last_page-$page) > $wi->page_count">Next</a>
+				<a href="{getUrl('page',$page_view->last_page,'document_srl','','division',$division,'last_division',$last_division,'entry','')}" class="goToLast" title="Last Page"><i class="fas fa-forward"></i></a>
+			</div>
+
+		</div>
+	</div>
+
+</div>

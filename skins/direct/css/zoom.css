@@ -1,0 +1,5 @@
+.mf_accordion .zoom-section{ clear:both;}
+.mf_accordion .zoom-small-image{ float:left;}
+.mf_accordion .cloud-zoom-lens { background-color:#fff;cursor:move;}
+.mf_accordion .cloud-zoom-big { overflow:hidden; box-sizing:border-box; border:1px solid #ccc; }
+.mf_accordion .cloud-zoom-loading { color:white;background:#222;padding:3px;}

@@ -1,0 +1,197 @@
+{@ $wi = $widget_info; }
+<load target="css/mfd.css" />
+<load target="css/animate.css" |cond="$wi->animate_use == 'Y'"/>
+
+<style>
+.mfd_accordion { background:url({$wi->b_img}) no-repeat center center; background-color:{$wi->background_color}; width:{$wi->w_width}; margin:50px 0 70px}
+.mfd_accordion .mfd_close { left:-50px; top:-50px; width:40px; height:30px; z-index:1;}
+
+.mfd_accordion h2 { font-size:{$wi->title_size}em; color:{$wi->title_color}}
+.mfd_accordion h2 a { color:{$wi->title_color}}
+.mfd_accordion .mfd_sum { font-size:{$wi->sum_font_size}em; line-height:{$wi->content_l_h}em; color:{$wi->sum_font_color}; height:{$wi->box_height-($wi->box_height-30)}px}
+.mfd_accordion .mfd_box { border:{$wi->border_size}px solid {$wi->border_color}; <!--@if($wi->boxshadow == '')-->box-shadow:0px 5px 15px gray;<!--@end--> width:{$wi->box_width}px; height:{$wi->box_height}px; margin-left:-{$wi->m_left}px}
+.mfd_accordion .mfd_box img {<!--@if($wi->thumb_gray == 'Y')--> -webkit-filter:grayscale(100%); filter:grayscale(100%)<!--@end-->}
+.mfd_accordion .mfd_box img:hover { -webkit-filter:grayscale(0%); filter:grayscale(0%)}
+.mfd_accordion .mfd_etc { color:{$wi->sum_font_color}; color:{$wi->sum_font_color}}
+
+.mfd_accordion .mfd_box:first-of-type { background-color:{$wi->back_color1}}
+.mfd_accordion .mfd_box:nth-of-type(2) { background-color:{$wi->back_color2}}
+.mfd_accordion .mfd_box:nth-of-type(3) { background-color:{$wi->back_color3}}
+.mfd_accordion .mfd_box:nth-of-type(4) { background-color:{$wi->back_color4}}
+.mfd_accordion .mfd_box:nth-of-type(5) { background-color:{$wi->back_color5}}
+.mfd_accordion .mfd_box:nth-of-type(5n+1) { background-color:{$wi->back_color1}}
+.mfd_accordion .mfd_box:nth-of-type(5n+2) { background-color:{$wi->back_color2}}
+.mfd_accordion .mfd_box:nth-of-type(5n+3) { background-color:{$wi->back_color3}}
+.mfd_accordion .mfd_box:nth-of-type(5n+4) { background-color:{$wi->back_color4}}
+.mfd_accordion .mfd_box:nth-of-type(5n+5) { background-color:{$wi->back_color5}}
+
+<block cond="$wi->animate_use == 'Y'" >
+.mfd_accordion .mfd_sum { display:none }
+.mfd_accordion:hover .mfd_sum { display:block; -webkit-animation-duration:3s; animation-duration:3s; -webkit-animation-fill-mode:both; animation-fill-mode:both; -webkit-animation-name:fadeInDown; animation-name:fadeInDown }
+</block>
+
+@media all and (max-width:479px) {
+.mfd-area { width:100%; max-height:{$wi->cols_list_count*(370)}px}
+.mfd-area .mfd_close { left:-100px; top:50px; z-index:1}
+.mfd_accordion { margin-left:{$wi->m_leftmargin}px}
+.mfd_accordion .mfd_box { height:200px; width:200px; margin:0 100px 95px 0}
+.mfd_accordion .mhthumb img { max-height:150px}
+.mfd_accordion .mfd_box:hover { margin-bottom:100px}
+}
+</style>
+
+<div class="mfd_accordion" id="mfdClose">
+
+	<a cond="!$wi->widget_close == ''" href="javascript:void(xHide('mfdClose'))" class="mfd_close pr_tooltip" pr_color="orange" pr_position="top" title="Widget 닫기"><img src="img/pin.png" width="40" border="0" alt="Close X"></a>
+
+	<div class="mfd_box" cond="$wi->faccordion_1">
+			<h2 cond="$wi->faccordion_1_text"><a href="{$wi->faccordion_1_url}">{$wi->faccordion_1_text}</a></h2>
+			<span cond="$wi->view_type ==''">
+			<a class="mhthumb" href="{$wi->faccordion_1_url}"><img src="{$wi->faccordion_1}" width="{$wi->thumbnail_width}" height="{$wi->thumbnail_height}"/></a>
+			</span>
+			<span cond="$wi->view_type =='lightbox'">
+			<a class="mhthumb example-image-link" href="{$wi->faccordion_1}" data-lightbox="mnc" data-title="">
+			<load target="css/lightbox.min.css"/>
+			<load target="js/lightbox.js"/>
+				<img src="{$wi->faccordion_1}" width="{$wi->thumbnail_width}" height="{$wi->thumbnail_height}" />
+			</a>
+			</span>
+			<span class="mhthumb zoom-section" cond="$wi->view_type== 'zoom'">
+			<load target="css/zoom.css" />
+			<load target="js/cloud-zoom.1.0.2.min.js" />
+				<div class="zoom-small-image">
+					<a href="{$wi->faccordion_1}" class='cloud-zoom' rel="position:'inside',showTitle:false,adjustX:-1,adjustY:-1">
+						<img src="{$wi->faccordion_1}" width="{$wi->thumbnail_width}" height="{$wi->thumbnail_height}"/>
+					</a>
+				</div>
+			</span>
+			<p cond="$wi->faccordion_1_sum" class="mfd_sum">{$wi->faccordion_1_sum}</p>
+			<a class="mfd_etc" cond="!$wi->more== ''" href="{$wi->faccordion_1_url}">more &rarr;</a>
+	</div>
+
+	<div class="mfd_box" cond="$wi->faccordion_2">
+			<h2 cond="$wi->faccordion_2_text"><a href="{$wi->faccordion_2_url}">{$wi->faccordion_2_text}</a></h2>
+			<span cond="$wi->view_type ==''">
+			<a class="mhthumb" href="{$wi->faccordion_2_url}"><img src="{$wi->faccordion_2}" width="{$wi->thumbnail_width}" height="{$wi->thumbnail_height}" /></a>
+			</span>
+			<span cond="$wi->view_type =='lightbox'">
+			<a class="mhthumb example-image-link" href="{$wi->faccordion_2}" data-lightbox="mnc" data-title="">
+			<load target="css/lightbox.min.css" />
+			<load target="js/lightbox.js"/>
+				<img src="{$wi->faccordion_2}" width="{$wi->thumbnail_width}" height="{$wi->thumbnail_height}" />
+			</a>
+			</span>
+			<span class="mhthumb zoom-section" cond="$wi->view_type== 'zoom'">
+			<load target="css/zoom.css" />
+			<load target="js/cloud-zoom.1.0.2.min.js" />
+				<div class="zoom-small-image">
+					<a href="{$wi->faccordion_2}" class='cloud-zoom' rel="position:'inside',showTitle:false,adjustX:-1,adjustY:-1">
+						<img src="{$wi->faccordion_2}" width="{$wi->thumbnail_width}" height="{$wi->thumbnail_height}" />
+					</a>
+				</div>
+			</span>
+			<div cond="$wi->faccordion_2_sum" class="mfd_sum">{$wi->faccordion_2_sum}</div>
+			<a class="mfd_etc" cond="!$wi->more== ''" href="{$wi->faccordion_2_url}">more &rarr;</a>
+	</div>
+
+	<div class="mfd_box" cond="$wi->faccordion_3">
+			<h2 cond="$wi->faccordion_3_text"><a href="{$wi->faccordion_3_url}">{$wi->faccordion_3_text}</a></h2>
+			<span cond="$wi->view_type ==''">
+			<a class="mhthumb" href="{$wi->faccordion_3_url}"><img src="{$wi->faccordion_3}" width="{$wi->thumbnail_width}" height="{$wi->thumbnail_height}" /></a>
+			</span>
+			<span cond="$wi->view_type =='lightbox'">
+			<a class="mhthumb example-image-link" href="{$wi->faccordion_3}" data-lightbox="mnc" data-title="">
+			<load target="css/lightbox.min.css" />
+			<load target="js/lightbox.js"/>
+				<img src="{$wi->faccordion_3}" width="{$wi->thumbnail_width}" height="{$wi->thumbnail_height}" />
+			</a>
+			</span>
+			<span class="mhthumb zoom-section" cond="$wi->view_type== 'zoom'">
+			<load target="css/zoom.css" />
+			<load target="js/cloud-zoom.1.0.2.min.js" />
+				<div class="zoom-small-image">
+					<a href="{$wi->faccordion_3}" class='cloud-zoom' rel="position:'inside',showTitle:false,adjustX:-1,adjustY:-1">
+						<img src="{$wi->faccordion_3}" width="{$wi->thumbnail_width}" height="{$wi->thumbnail_height}" />
+					</a>
+				</div>
+			</span>
+			<p cond="$wi->faccordion_3_sum" class="mfd_sum">{$wi->faccordion_3_sum}</p>
+			<a class="mfd_etc" cond="!$wi->more== ''" href="{$wi->faccordion_3_url}">more &rarr;</a>
+	</div>
+
+	<div class="mfd_box" cond="$wi->faccordion_4">
+			<h2 cond="$wi->faccordion_4_text"><a href="{$wi->faccordion_4_url}">{$wi->faccordion_4_text}</a></h2>
+			<span cond="$wi->view_type ==''">
+			<a class="mhthumb" href="{$wi->faccordion_4_url}"><img src="{$wi->faccordion_4}" width="{$wi->thumbnail_width}" height="{$wi->thumbnail_height}" /></a>
+			</span>
+			<span cond="$wi->view_type =='lightbox'">
+			<a class="mhthumb example-image-link" href="{$wi->faccordion_4}" data-lightbox="mnc" data-title="">
+			<load target="css/lightbox.min.css" />
+			<load target="js/lightbox.js"/>
+				<img src="{$wi->faccordion_4}" width="{$wi->thumbnail_width}" height="{$wi->thumbnail_height}" />
+			</a>
+			</span>
+			<span class="mhthumb zoom-section" cond="$wi->view_type== 'zoom'">
+			<load target="css/zoom.css" />
+			<load target="js/cloud-zoom.1.0.2.min.js" />
+				<div class="zoom-small-image">
+					<a href="{$wi->faccordion_4}" class='cloud-zoom' rel="position:'inside',showTitle:false,adjustX:-1,adjustY:-1">
+						<img src="{$wi->faccordion_4}" width="{$wi->thumbnail_width}" height="{$wi->thumbnail_height}" />
+					</a>
+				</div>
+			</span>
+			<p cond="$wi->faccordion_4_sum" class="mfd_sum">{$wi->faccordion_4_sum}</p>
+			<a class="mfd_etc" cond="!$wi->more== ''" href="{$wi->faccordion_4_url}">more &rarr;</a>
+	</div>
+
+	<div class="mfd_box" cond="$wi->faccordion_5">
+			<h2 cond="$wi->faccordion_5_text"><a href="{$wi->faccordion_5_url}">{$wi->faccordion_5_text}</a></h2>
+			<span cond="$wi->view_type ==''">
+			<a class="mhthumb" href="{$wi->faccordion_5_url}"><img src="{$wi->faccordion_5}" width="{$wi->thumbnail_width}" height="{$wi->thumbnail_height}" /></a>
+			</span>
+			<span cond="$wi->view_type =='lightbox'">
+			<a class="mhthumb example-image-link" href="{$wi->faccordion_5}" data-lightbox="mnc" data-title="">
+			<load target="css/lightbox.min.css" />
+			<load target="js/lightbox.js"/>
+				<img src="{$wi->faccordion_5}" width="{$wi->thumbnail_width}" height="{$wi->thumbnail_height}" />
+			</a>
+			</span>
+			<span class="mhthumb zoom-section" cond="$wi->view_type== 'zoom'">
+			<load target="css/zoom.css" />
+			<load target="js/cloud-zoom.1.0.2.min.js" />
+				<div class="zoom-small-image">
+					<a href="{$wi->faccordion_5}" class='cloud-zoom' rel="position:'inside',showTitle:false,adjustX:-1,adjustY:-1">
+						<img src="{$wi->faccordion_5}" width="{$wi->thumbnail_width}" height="{$wi->thumbnail_height}" />
+					</a>
+				</div>
+			</span>
+			<p cond="$wi->faccordion_5_sum" class="mfd_sum">{$wi->faccordion_5_sum}</p>
+			<a class="mfd_etc" cond="!$wi->more== ''" href="{$wi->faccordion_5_url}">more &rarr;</a>
+	</div>
+
+	<div class="mfd_box" cond="$wi->faccordion_6">
+			<h2 cond="$wi->faccordion_6_text"><a href="{$wi->faccordion_6_url}">{$wi->faccordion_6_text}</a></h2>
+			<span cond="$wi->view_type ==''">
+			<a class="mhthumb" href="{$wi->faccordion_6_url}"><img src="{$wi->faccordion_6}" width="{$wi->thumbnail_width}" height="{$wi->thumbnail_height}" /></a>
+			</span>
+			<span cond="$wi->view_type =='lightbox'">
+			<a class="mhthumb example-image-link" href="{$wi->faccordion_6}" data-lightbox="mnc" data-title="{$wi->faccordion_6_text}">
+			<load target="css/lightbox.min.css" />
+			<load target="js/lightbox.js"/>
+				<img src="{$wi->faccordion_6}" width="{$wi->thumbnail_width}" height="{$wi->thumbnail_height}" />
+			</a>
+			</span>
+			<span class="mhthumb zoom-section" cond="$wi->view_type== 'zoom'">
+			<load target="css/zoom.css" />
+			<load target="js/cloud-zoom.1.0.2.min.js" />
+				<div class="zoom-small-image">
+					<a href="{$wi->faccordion_6}" class='cloud-zoom' rel="position:'inside',showTitle:false,adjustX:-1,adjustY:-1">
+						<img src="{$wi->faccordion_6}" width="{$wi->thumbnail_width}" height="{$wi->thumbnail_height}" />
+					</a>
+				</div>
+			</span>
+			<p cond="$wi->faccordion_6_sum" class="mfd_sum">{$wi->faccordion_6_sum}</p>
+			<a class="mfd_etc" cond="!$wi->more== ''" href="{$wi->faccordion_6_url}">more &rarr;</a>
+	</div>
+
+</div>

@@ -1,0 +1,63 @@
+{@ $wi = $widget_info; }
+<load target="css/mf.css" />
+<load target="css/animate.css" |cond="$wi->animate_use == 'Y'"/>
+<load target="js/ajax.js" |cond="$wi->ajax_use == 'Y' && $wi->page_type=='Y'"/>
+
+<style>
+	.mf-area { background:url({$wi->b_img}) repeat center center; background-color:{$wi->background_color}; width:{$wi->w_width}}
+	.mf-area .mf_close { margin:{$wi->c_lo}}
+	.mf-area .mb_name { margin:{$wi->bn_lo}; color:{$wi->b_name_color}; font-size:1.2em}
+
+	.mf_accordion .mf_title { font-size:{$wi->title_size}em; color:{$wi->title_color}}
+	.mf_accordion .mf_title a { color:{$wi->title_color}}
+	.mf_accordion .mf_sum { font-size:{$wi->sum_font_size}em; line-height:{$wi->content_l_h}em; color:{$wi->sum_font_color}}
+	.mf_accordion .mf_box { border:{$wi->border_size}px solid {$wi->border_color}; <!--@if($wi->boxshadow == '')-->box-shadow:0px 5px 15px gray;<!--@end--> height:{$wi->box_height}px; margin-left:-{$wi->m_left}px; width:{$wi->box_width+6}px}
+	.mf_accordion .mf_box img {<!--@if($wi->thumb_gray == 'Y')--> -webkit-filter:grayscale(100%); filter:grayscale(100%)<!--@end-->}
+	.mf_accordion .mf_box img:hover { -webkit-filter:grayscale(0%); filter:grayscale(0%)}
+	.mf_accordion .noimg { width:{$wi->thumbnail_width}px; height:{$wi->thumbnail_height}px }
+	.mf_accordion .mf_etc { color:{$wi->sum_font_color}}
+	.mf_accordion .mf_etc a { color:{$wi->sum_font_color}}
+
+	.mf_accordion .mf_box:first-of-type { background-color:{$wi->back_color1}}
+	.mf_accordion .mf_box:nth-of-type(2) { background-color:{$wi->back_color2}}
+	.mf_accordion .mf_box:nth-of-type(3) { background-color:{$wi->back_color3}}
+	.mf_accordion .mf_box:nth-of-type(4) { background-color:{$wi->back_color4}}
+	.mf_accordion .mf_box:nth-of-type(5) { background-color:{$wi->back_color5}}
+	.mf_accordion .mf_box:nth-of-type(5n+1) { background-color:{$wi->back_color1}}
+	.mf_accordion .mf_box:nth-of-type(5n+2) { background-color:{$wi->back_color2}}
+	.mf_accordion .mf_box:nth-of-type(5n+3) { background-color:{$wi->back_color3}}
+	.mf_accordion .mf_box:nth-of-type(5n+4) { background-color:{$wi->back_color4}}
+	.mf_accordion .mf_box:nth-of-type(5n+5) { background-color:{$wi->back_color5}}
+
+	<block cond="$wi->animate_use == 'Y'" >
+		.mf_accordion .mf_sum { display:none }
+		.mf_accordion:hover .mf_sum { display:block; -webkit-animation-duration:2s; animation-duration:2s; -webkit-animation-name:fadeInRight; animation-name:fadeInRight }
+	</block>
+
+	@media all and (max-width:960px) {
+		.mf-area { width:100%; max-height:{$wi->cols_list_count*($wi->box_height+50)}px}
+		.mf_accordion { margin-left:{$wi->m_leftmargin}px }
+		.mf_accordion .mf_box { width:300px; margin:0 }
+		.mf_accordion .mhthumb img { height:150px; width:260px; }
+		.mf_accordion .mf_box:hover { margin-bottom:100px}
+		.mf-area .mf_close,
+		.mf-area .mb_name { display:none }
+
+		.mf_accordion .mf_box {
+		 float:left; padding:20px; margin-bottom:40px;
+		 -webkit-transform:perspective(900) rotateY(0deg);
+		 -webkit-transition:all 0.7s ease-in-out;
+		 -ms-transform:perspective(900) rotateY(0deg);
+		 -ms-transition:all 0.7s ease-in-out;
+		 -moz-transform:perspective(900) rotateY(0deg);
+		 -moz-transition:all 0.7s ease-in-out;
+		 transform:perspective(900) rotateY(0deg);
+		 transition:all 0.7s ease-in-out;
+		}
+
+		.mf_accordion .mf_box:hover {
+		 margin:0;
+		}
+
+	}
+</style>

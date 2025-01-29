@@ -34,30 +34,73 @@
 		.mf_accordion:hover .mf_sum { display:block; -webkit-animation-duration:2s; animation-duration:2s; -webkit-animation-name:fadeInRight; animation-name:fadeInRight }
 	</block>
 
-	@media all and (max-width:960px) {
-		.mf-area { width:100%; max-height:{$wi->cols_list_count*($wi->box_height+50)}px}
-		.mf_accordion { margin-left:{$wi->m_leftmargin}px }
-		.mf_accordion .mf_box { width:300px; margin:0 }
-		.mf_accordion .mhthumb img { height:150px; width:260px; }
-		.mf_accordion .mf_box:hover { margin-bottom:100px}
-		.mf-area .mf_close,
-		.mf-area .mb_name { display:none }
+@media all and (max-width:960px) {
+    .mf-area {
+        width: 100%;
+        height: auto;
+        padding: 20px 0;
+        overflow-x: hidden;
+    }
 
-		.mf_accordion .mf_box {
-		 float:left; padding:20px; margin-bottom:40px;
-		 -webkit-transform:perspective(900) rotateY(0deg);
-		 -webkit-transition:all 0.7s ease-in-out;
-		 -ms-transform:perspective(900) rotateY(0deg);
-		 -ms-transition:all 0.7s ease-in-out;
-		 -moz-transform:perspective(900) rotateY(0deg);
-		 -moz-transition:all 0.7s ease-in-out;
-		 transform:perspective(900) rotateY(0deg);
-		 transition:all 0.7s ease-in-out;
-		}
+    .mf_w {
+        width: 100%;
+        overflow-x: auto;
+		height: {$wi->box_height+50}px;
+        -webkit-overflow-scrolling: touch;
+    }
 
-		.mf_accordion .mf_box:hover {
-		 margin:0;
-		}
+    .mf_accordion {
+        display: flex;
+        flex-wrap: nowrap;  /* 중요: nowrap으로 설정하여 가로 스크롤 가능하게 함 */
+        width: max-content;  /* 내용물 크기만큼 늘어나도록 설정 */
+        gap: 20px;
+        padding: 0 10px;
+        margin: 0;
+    }
 
-	}
+    .mf_accordion .mf_box {
+        width: 300px;
+        margin: 0;
+        transform: none;
+        transition: transform 0.3s ease;
+        float: none;
+        height: auto;
+    }
+
+    .mf_accordion .mhthumb {
+        width: 100%;
+        float: none;
+        padding: 0;
+        margin-bottom: 10px;
+    }
+
+    .mf_accordion .mhthumb img {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+    }
+
+    /* 기존의 3D 효과 제거 */
+    .mf_accordion .mf_box,
+    .mf_accordion .mf_box:hover {
+        -webkit-transform: none;
+        -ms-transform: none;
+        -moz-transform: none;
+        transform: none;
+        margin: 0;
+    }
+
+    /* 간단한 호버 효과 */
+    .mf_accordion .mf_box:hover {
+        transform: scale(1.05) !important;
+    }
+
+	.mf_accordion .mf_sum { word-break:break-all; overflow:hidden; text-overflow:ellipsis; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; }
+
+    /* 불필요한 요소 숨기기 */
+    .mf-area .mf_close,
+    #mmcpageNavigation_mf {
+        display: none;
+    }
+}
 </style>

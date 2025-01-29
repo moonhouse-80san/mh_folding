@@ -1,7 +1,6 @@
 <include target="mf_style.html" />
 
 <div class="mf-area" id="mfClose">
-
 	<a cond="!$wi->widget_close == ''" href="javascript:void(xHide('mfClose'))" class="mf_close pr_tooltip" pr_color="orange" pr_position="top" title="Widget 닫기">
 		<img src="img/pin.png" width="30" border="0" alt="Close X">
 	</a>
@@ -12,7 +11,6 @@
 
 	<div class="mf_w">
 		<div class="mf_accordion">
-
 			<!--@foreach($box_list as $key => $val)-->
 				{@ $oDocument = $oDocumentModel->getDocument($val->document_srl)}
 				{@ $uploaded_images = array()}
@@ -102,8 +100,6 @@
 				<a href="{getUrl('page',$page+$wi->page_count,'document_srl','','division',$division,'last_division',$last_division,'entry','')}" class="pn" cond="($page_view->last_page-$page) > $wi->page_count">Next</a>
 				<a href="{getUrl('page',$page_view->last_page,'document_srl','','division',$division,'last_division',$last_division,'entry','')}" class="goToLast" title="Last Page"><i class="fas fa-forward"></i></a>
 			</div>
-
 		</div>
 	</div>
-
 </div>

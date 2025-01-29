@@ -22,12 +22,22 @@
 			Context::set('oModuleModel',$oModuleModel);
 			Context::set('oDocumentModel',$oDocumentModel);
 
-			if(!in_array($args->order_target, array('regdate', 'list_order', 'update_order'))) $args->order_target = 'list_order';
-			if(!in_array($args->order_type, array('asc','desc'))) $args->order_type = 'desc';
+		// 정렬 대상
+		$valid_order_targets = ['list_order', 'update_order', 'regdate', 'rand()', 'voted_count', 'readed_count', 'comment_count'];
+		$args->order_target = in_array($args->order_target ?? '', $valid_order_targets) ? $args->order_target : 'list_order';
 
-			$list_count = (int)$args->list_count;
-			if(!$list_count) $list_count = 5;
-			$obj->list_count = $list_count;
+		$obj = new stdClass();
+		$obj->sort_index = $args->order_target;
+
+		// 정렬 순서
+		$order_type = $args->order_type ?? 'asc';
+		if(!in_array($order_type, ['asc', 'desc'])) $order_type = 'asc';
+		$obj->order_type = $order_type == "desc" ? "asc" : "desc";
+
+		// 총 목록 수
+		$list_count = (int)($args->list_count ?? 5);
+		if(!$list_count) $list_count = 5;
+		$obj->list_count = $list_count;
 
 			$args->cols_list_count = isset($args->cols_list_count) ? (int)$args->cols_list_count : 1;
 			$args->m_leftmargin = isset($args->m_leftmargin) ? (int)$args->m_leftmargin : 0;
@@ -85,35 +95,12 @@
 			$name_use = $args->name_use;
 
 			// Direct
-			$faccordion_1 = $args->faccordion_1;
-			$faccordion_1_url = $args->faccordion_1_url;
-			$faccordion_1_text = $args->faccordion_1_text;
-			$faccordion_1_sum = $args->faccordion_1_sum;
-
-			$faccordion_2 = $args->faccordion_2;
-			$faccordion_2_url = $args->faccordion_2_url;
-			$faccordion_2_text = $args->faccordion_2_text;
-			$faccordion_2_sum = $args->faccordion_2_sum;
-
-			$faccordion_3 = $args->faccordion_3;
-			$faccordion_3_url = $args->faccordion_3_url;
-			$faccordion_3_text = $args->faccordion_3_text;
-			$faccordion_3_sum = $args->faccordion_3_sum;
-
-			$faccordion_4 = $args->faccordion_4;
-			$faccordion_4_url = $args->faccordion_4_url;
-			$faccordion_4_text = $args->faccordion_4_text;
-			$faccordion_4_sum = $args->faccordion_4_sum;
-
-			$faccordion_5 = $args->faccordion_5;
-			$faccordion_5_url = $args->faccordion_5_url;
-			$faccordion_5_text = $args->faccordion_5_text;
-			$faccordion_5_sum = $args->faccordion_5_sum;
-
-			$faccordion_6 = $args->faccordion_6;
-			$faccordion_6_url = $args->faccordion_6_url;
-			$faccordion_6_text = $args->faccordion_6_text;
-			$faccordion_6_sum = $args->faccordion_6_sum;
+			for ($i = 1; $i <= 6; $i++) {
+				Context::set("faccordion_{$i}", $args->{"faccordion_{$i}"} ?? '');
+				Context::set("faccordion_{$i}_url", $args->{"faccordion_{$i}_url"} ?? '');
+				Context::set("faccordion_{$i}_text", $args->{"faccordion_{$i}_text"} ?? '');
+				Context::set("faccordion_{$i}_sum", $args->{"faccordion_{$i}_sum"} ?? '');
+			}
 
 			// 대상 모듈
 			$mid_list = explode(",",$args->mid_list);
@@ -157,16 +144,24 @@
 
 			if($obj->sort_index == 'list_order') $obj->avoid_notice = -2100000000;
 
-			/* 페이지 네비게이션 기능 추가 */
-			// 페이지 목록 수 (1,2,3,4....)
-			$page_count = $args->page_count;
-			if(!$page_count) $page_count = 5;
-			$obj->page_count = $page_count;
-			// 페이지 출력 여부
-			$page_type = $args->page_type;
-			// 페이지 번호 구하기
-			if($page_type=='Y') $obj->page = (Context::get('page'))? Context::get('page'): 1;
-			/* 페이지 네비게이션 기능 추가 끝 */
+		/* 페이지 네비게이션 기능 추가 */
+		// 페이지 목록 수 (1,2,3,4....)
+		$page_count = $args->page_count;
+		if(!$page_count) $page_count = 5;
+		$obj->page_count = $page_count;
+		// 페이지 출력 여부
+		$page_type = $args->page_type;
+		// 페이지 번호 구하기
+		if($page_type == 'Y') {
+			$current_page = (int)(Context::get('page') ?? 1);
+			if($current_page < 1) $current_page = 1;
+			$obj->page = $current_page;
+			
+			// 추가적인 페이지네이션 처리
+			$obj->list_count = $list_count;
+			$obj->start_count = ($current_page - 1) * $list_count;
+		}
+		/* 페이지 네비게이션 기능 추가 끝 */
 
 			$obj->category_srl = $args->category_srl;
 			$output = executeQueryArray('widgets.mh_folding.getMhMulti', $obj);
@@ -226,15 +221,15 @@
 
 			$args->document_list = $document_list;
 
-			/* 페이지 네비게이션 기능 추가 */
-			$args->total_count = $output_count->data[0]->count; // 전체 개시물 수
-			$args->page = (!Context::get('page'))? 1:Context::get('page'); // 현재 페이지
-			// 총 페이지 수
-			$total_count = $args->total_count/$list_count;
-			if($args->total_count%$list_count != 0) $total_count+=1;
-			$args->total_page = floor($total_count); // 총 페이지 수
-			$args->page_count = $page_count; // 총 페이지 수
-			/* 페이지 네비게이션 기능 추가 끝 */
+		// 페이지 네비게이션 설정
+		if(isset($output_count)) {
+			$args->total_count = $output_count->data[0]->count ?? 0;
+			$args->page = Context::get('page') ?: 1;
+			$total_count = $args->total_count / $list_count;
+			if($args->total_count % $list_count != 0) $total_count += 1;
+			$args->total_page = floor($total_count);
+			$args->page_count = $args->page_count ?? 5;
+		}
 
 			if($args->module_srls){
 				$obj->module_srl = $args->module_srls;
@@ -262,11 +257,10 @@
 	 * @brief 다음 페이지 요청
 	 **/
 	function WD_getNextPage_mf($total_count, $total_page, $cur_page, $page_count = 10) {
-
 		$first_page = $cur_page - (int)($page_count/2);
-		if($first_page<1) $first_page = 1;
+		if($first_page < 1) $first_page = 1;
 		$last_page = $total_page;
-		if($last_page>$total_page) $last_page = $total_page;
+		if($last_page > $total_page) $last_page = $total_page;
 		if($total_page < $page_count) $page_count = $total_page;
 
 		$GLOBALS['wd_total_page'] = $total_page;
@@ -274,6 +268,7 @@
 		$GLOBALS['wd_page_count'] = $page_count;
 		$GLOBALS['wd_last_page'] = $last_page;
 
+		$page = new stdClass();
 		$page->first_page = $first_page;
 		$page->last_page = $last_page;
 
@@ -281,7 +276,8 @@
 	}
 
 	function WD_getNextPage_mf2() {
-		$page = $GLOBALS['wd_first_page']+$GLOBALS['wd_i']++;
+		$GLOBALS['wd_i'] = $GLOBALS['wd_i'] ?? 0;
+		$page = $GLOBALS['wd_first_page'] + $GLOBALS['wd_i']++;
 		if($GLOBALS['wd_i'] > $GLOBALS['wd_page_count'] || $page > $GLOBALS['wd_last_page']) $page = 0;
 		return $page;
 	}
@@ -289,4 +285,3 @@
 	function WD_getNextClear_mf() {
 		$GLOBALS['wd_i'] = 0;
 	}
-?>

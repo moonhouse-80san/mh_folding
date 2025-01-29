@@ -2,8 +2,8 @@
 <widget version="0.2">
 	<title xml:lang="ko">Mh Folding Pro</title>
 	<description xml:lang="ko">펼쳐지는 형태의 아코디언 위젯</description>
-	<version>1.0</version>
-	<date>2020-01-03</date>
+	<version>2.0</version>
+	<date>2025-01-29</date>
 
 	<author email_address="mbg1346@naver.com" link="https://moonhouse.co.kr">
 		<name xml:lang="ko">문하우스</name>
@@ -27,23 +27,39 @@
 			<name xml:lang="ko">목록수</name>
 			<description xml:lang="ko">출력될 목록의 수를 정합니다.(기본값: 5개)</description>
 		</var>
-		<var id="order_target">
-			<name xml:lang="ko">정렬 대상</name>
-			<type>select</type>
-			<description xml:lang="ko">등록된 순서 또는 변경된 순서로 정렬을 할 수 있습니다.</description>
-			<options>
-				<name xml:lang="ko">최신 등록순</name>
-				<value>list_order</value>
-			</options>
-			<options>
-				<name xml:lang="ko">최근 날짜순</name>
-				<value>regdate</value>
-			</options>
-			<options>
-				<name xml:lang="ko">최근 변경순</name>
-				<value>update_order</value>
-			</options>
-		</var>
+			<var id="order_target">
+				<type>select</type>
+				<name xml:lang="ko">정렬 대상</name>
+				<description xml:lang="ko">등록된 순서 또는 변경된 순서로 정렬을 할 수 있습니다.</description>
+				<options>
+					<value>list_order</value>
+					<name xml:lang="ko">최신 등록순</name>
+				</options>
+				<options>
+					<value>update_order</value>
+					<name xml:lang="ko">최근 변경순</name>
+				</options>
+				<options>
+					<value>regdate</value>
+					<name xml:lang="ko">등록 일자순</name>
+				</options>
+				<options>
+					<value>voted_count</value>
+					<name xml:lang="ko">추천수</name>
+				</options>
+				<options>
+					<value>readed_count</value>
+					<name xml:lang="ko">조회수</name>
+				</options>
+				<options>
+					<value>comment_count</value>
+					<name xml:lang="ko">댓글순</name>
+				</options>
+				<options>
+					<value>rand()</value>
+					<name xml:lang="ko">랜덤순</name>
+				</options>
+			</var>
 		<var id="order_type">
 			<name xml:lang="ko">정렬 방법</name>
 			<type>select</type>

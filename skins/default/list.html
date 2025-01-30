@@ -84,21 +84,27 @@
 
 			<!-- 페이지 네비게이션 -->
 			<div cond="$wi->page_type=='Y'" id="mmcpageNavigation_mf">
-				<a href="{getUrl('page','','document_srl','','division',$division,'last_division',$last_division,'entry','')}" class="goToFirst" title="First Page"><i class="fas fa-backward"></i></a>
-					<!-- 페이지 정보 구하기 위해 선언 -->
-					{@$page_view = WD_getNextPage_mf($wi->total_count,$wi->total_page,$wi->page,$wi->page_count)}
-					<!-- 중복 페이지 정보 출력을 위해 사전 초기화 -->
-					{@WD_getNextClear_mf()}
-				<a href="{getUrl('page',$page-$wi->page_count,'document_srl','','division',$division,'last_division',$last_division,'entry','')}" class="pn" cond="$page > $wi->page_count">Prev</a>
+				<a href="{getUrl('mid', $mid, 'page', 1, 'act', $act, 'widgetstyle', $widgetstyle, 'widget_srl', $wi->widget_srl)}" class="goToFirst" title="First Page">
+					<i class="fas fa-backward"></i>
+				</a>
+				<!-- 페이지 정보 구하기 위해 선언 -->
+				{@$page_view = WD_getNextPage_mf($wi->total_count,$wi->total_page,$wi->page,$wi->page_count)}
+				<!-- 중복 페이지 정보 출력을 위해 사전 초기화 -->
+				{@WD_getNextClear_mf()}
+				<a href="{getUrl('page', $page-$wi->page_count, 'mid', $mid, 'act', $act, 'widgetstyle', $widgetstyle, 'widget_srl', $wi->widget_srl)}" class="pn" cond="$page > $wi->page_count">Prev</a>
 				<!--@while($page_no = WD_getNextPage_mf2())-->
 					<!--@if($wi->page == $page_no)-->
 						<span class="current">{$page_no}</span>
 					<!--@else-->
-						<span class="pageNavigations"><a href="{getUrl('page',$page_no,'document_srl','','division',$division,'last_division',$last_division,'entry','')}" class="pageNavigation2">{$page_no}</a></span>
+						<span class="pageNavigations">
+							<a href="{getUrl('page', $page_no, 'mid', $mid, 'act', $act, 'widgetstyle', $widgetstyle, 'widget_srl', $wi->widget_srl)}" class="pageNavigation2">{$page_no}</a>
+						</span>
 					<!--@end-->
 				<!--@end-->
-				<a href="{getUrl('page',$page+$wi->page_count,'document_srl','','division',$division,'last_division',$last_division,'entry','')}" class="pn" cond="($page_view->last_page-$page) > $wi->page_count">Next</a>
-				<a href="{getUrl('page',$page_view->last_page,'document_srl','','division',$division,'last_division',$last_division,'entry','')}" class="goToLast" title="Last Page"><i class="fas fa-forward"></i></a>
+				<a href="{getUrl('page', $page+$wi->page_count, 'mid', $mid, 'act', $act, 'widgetstyle', $widgetstyle, 'widget_srl', $wi->widget_srl)}" class="pn" cond="($page_view->last_page-$page) > $wi->page_count">Next</a>
+				<a href="{getUrl('page', $page_view->last_page, 'mid', $mid, 'act', $act, 'widgetstyle', $widgetstyle, 'widget_srl', $wi->widget_srl)}" class="goToLast" title="Last Page">
+					<i class="fas fa-forward"></i>
+				</a>
 			</div>
 		</div>
 	</div>

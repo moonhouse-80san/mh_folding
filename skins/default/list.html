@@ -11,6 +11,7 @@
 
 	<div class="mf_w">
 		<div class="mf_accordion">
+			{@$i=0}
 			<!--@foreach($box_list as $key => $val)-->
 				{@ $oDocument = $oDocumentModel->getDocument($val->document_srl)}
 				{@ $uploaded_images = array()}
@@ -80,6 +81,7 @@
 						</a>
 					</div>
 				</div>
+			{@$i++}
 			<!--@end-->
 
 			<!-- 페이지 네비게이션 -->

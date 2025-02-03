@@ -40,58 +40,56 @@ class mh_folding extends WidgetHandler {
 		$obj->list_count = $list_count;
 
 		// 설정값들의 기본값 처리
-		$defaults = [
-			'subject_cut_size' => 0,
-			'content_cut_size' => 200,
-			'content_l_h' => '1.6',
-			'thumbnail_type' => 'fill',
-			'thumbnail_width' => 100,
-			'thumbnail_height' => 100,
-			'title_size' => '1.6',
-			'sum_font_size' => '1',
-			'border_size' => 2,
-			'border_color' => '#000',
-			'title_color' => '#eee',
-			'background_color' => 'transparent',
-			'sum_font_color' => '#eee',
-			'm_left' => 100,
-			'back_color1' => '#5b927d',
-			'back_color2' => '#a8ae7e',
-			'back_color3' => '#f3b96c',
-			'back_color4' => '#835531',
-			'back_color5' => '#9C4998',
-			'box_width' => 200,
-			'box_height' => 300,
-			'b_name_color' => '#444',
-			'bn_lo' => '10px 0 0 -44%',
-			'c_lo' => '0 0 0 45%',
-			'thumbnail_zoom' => 5,
-			'w_width' => '100%',
-			// LightBox 설정
-			'lr_duration' => 700,
-			'li_duration' => 600,
-			'l_top' => 50,
-			'l_scrolling' => null,
-			'lt_nav' => null,
-			'l_around' => null,
-			// 노출 여부 체크
-			'b_img' => null,
-			'b_name' => null,
-			'zoom_s' => null,
-			'view_type' => null,
-			'boxshadow' => null,
-			'thumb_gray' => null,
-			'widget_close' => null,
-			'title' => null,
-			'display_summary' => null,
-			'thumd_nails' => null,
-			'display_author' => null,
-			'display_regdate' => null,
-			'more' => null,
-			'ajax_use' => null,
-			'animate_use' => null,
-			'name_use' => null
-		];
+		$args->subject_cut_size = isset($args->subject_cut_size) ? (int)$args->subject_cut_size : 0;
+		$args->content_cut_size = isset($args->content_cut_size) ? (int)$args->content_cut_size : 200;
+		$args->content_l_h = $args->content_l_h ?? '1.6';
+		$args->thumbnail_type = $args->thumbnail_type ?? 'fill';
+		$args->thumbnail_width = isset($args->thumbnail_width) ? (int)$args->thumbnail_width : 100;
+		$args->thumbnail_height = isset($args->thumbnail_height) ? (int)$args->thumbnail_height : 100;
+		$args->title_size = $args->title_size ?? '1.6';
+		$args->sum_font_size = $args->sum_font_size ?? '1';
+		$args->border_size = isset($args->border_size) ? (int)$args->border_size : 2;
+		$args->border_color = $args->border_color ?? '#000';
+		$args->title_color = $args->title_color ?? '#eee';
+		$args->background_color = $args->background_color ?? 'transparent';
+		$args->sum_font_color = $args->sum_font_color ?? '#eee';
+		$args->m_left = isset($args->m_left) ? (int)$args->m_left : 100;
+		$args->back_color1 = $args->back_color1 ?? '#5b927d';
+		$args->back_color2 = $args->back_color2 ?? '#a8ae7e';
+		$args->back_color3 = $args->back_color3 ?? '#f3b96c';
+		$args->back_color4 = $args->back_color4 ?? '#835531';
+		$args->back_color5 = $args->back_color5 ?? '#9C4998';
+		$args->box_width = isset($args->box_width) ? (int)$args->box_width : 200;
+		$args->box_height = isset($args->box_height) ? (int)$args->box_height : 300;
+		$args->b_name_color = $args->b_name_color ?? '#444';
+		$args->bn_lo = $args->bn_lo ?? '10px 0 0 -44%';
+		$args->c_lo = $args->c_lo ?? '0 0 0 45%';
+		$args->thumbnail_zoom = isset($args->thumbnail_zoom) ? (int)$args->thumbnail_zoom : 5;
+		$args->w_width = $args->w_width ?? '100%';
+		// LightBox 설정
+		$args->lr_duration = isset($args->lr_duration) ? (int)$args->lr_duration : 700;
+		$args->li_duration = isset($args->li_duration) ? (int)$args->li_duration : 600;
+		$args->l_top = isset($args->l_top) ? (int)$args->l_top : 50;
+		$l_scrolling = $args->l_scrolling ?? null;
+		$lt_nav = $args->lt_nav ?? null;
+		$l_around = $args->l_around ?? null;
+		// 노출 여부 체크
+		$b_img = $args->b_img ?? null;
+		$b_name = $args->b_name ?? null;
+		$zoom_s = $args->zoom_s ?? null;
+		$view_type = $args->view_type ?? null;
+		$boxshadow = $args->boxshadow ?? null;
+		$thumb_gray = $args->thumb_gray ?? null;
+		$widget_close = $args->widget_close ?? null;
+		$title = $args->title ?? null;
+		$display_summary = $args->display_summary ?? null;
+		$thumd_nails = $args->thumd_nails ?? null;
+		$display_author = $args->display_author ?? null;
+		$display_regdate = $args->display_regdate ?? null;
+		$more = $args->more ?? null;
+		$ajax_use = $args->ajax_use ?? null;
+		$animate_use = $args->animate_use ?? null;
+		$name_use = $args->name_use ?? null;
 
 		// Direct
 		for ($i = 1; $i <= 6; $i++) {
